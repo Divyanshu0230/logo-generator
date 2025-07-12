@@ -41,6 +41,18 @@ flowchart TD
   Frontend -->|Static Assets| CDN["Public CDN"]
 ```
 
+| Component                | Description                                                                 |
+|--------------------------|-----------------------------------------------------------------------------|
+| **User (Web/Mobile)**    | The end user accessing Brandify from a browser or mobile device.            |
+| **Next.js Frontend**     | The main React-based UI, built with Next.js, serving all pages and assets.  |
+| **API Route/Server Actions** | Handles backend logic, API requests, and server-side actions in Next.js.     |
+| **PostgreSQL / NeonDB**  | The main database for storing user data, logo history, etc.                 |
+| **Nebius AI API**        | External AI service for generating logos based on user input.               |
+| **Upstash Redis**        | Provides rate limiting to prevent abuse and manage quotas.                  |
+| **Helicone**             | Observability and analytics for API usage and performance.                  |
+| **Clerk (Authentication)** | User authentication and session management.                                 |
+| **Public CDN**           | Serves static assets (images, icons, etc.) for fast global delivery.        |
+
 ---
 
 ## 🧩 Low-Level System Design & Architecture
@@ -93,6 +105,22 @@ flowchart TD
     UIComponents --> PublicCDN
   end
 ```
+
+| Component                | Description                                                                 |
+|--------------------------|-----------------------------------------------------------------------------|
+| **User Browser**         | Where the user interacts with the app.                                      |
+| **React Components**     | UI building blocks for the app.                                             |
+| **Next.js Pages**        | Page-level routing and rendering.                                           |
+| **UI Components**        | Buttons, cards, forms, etc.                                                 |
+| **API Calls**            | Fetch/axios requests to backend/server actions.                             |
+| **Clerk Auth SDK**       | Handles authentication in the frontend.                                     |
+| **API Route Handler**    | Receives and processes API requests.                                        |
+| **Business Logic**       | Core logic for logo generation, validation, etc.                            |
+| **DB Access Layer**      | Reads/writes data to the database.                                          |
+| **AI Service Layer**     | Communicates with Nebius AI for logo generation.                            |
+| **Rate Limiting Layer**  | Checks and enforces user quotas.                                            |
+| **Observability Layer**  | Sends logs/metrics to Helicone.                                             |
+| **External Services**    | NeonDB, Nebius AI, Upstash, Helicone, Clerk API, Public CDN.                |
 
 ---
 
