@@ -1,154 +1,137 @@
 # Brandify - AI-Powered Logo Generator
 
-![Brandify](./app/opengraph-image.png)
+Brandify is a modern, full-stack AI-powered logo generator. Instantly create, customize, and download professional logos for your brand, with a beautiful, original UI and robust backend.
 
-[Brandify](https://brandify.ai) is a next-generation web application that leverages artificial intelligence to create stunning, professional logos in seconds. Built with Next.js, TypeScript, and powered by Nebius AI, Brandify offers a seamless, modern experience for building your brand identity.
+---
 
-## Features
+## 🚀 Features
+- AI-powered logo generation (Nebius AI)
+- Multiple styles, colors, and sizes
+- User authentication (Clerk)
+- Logo history and gallery
+- Rate limiting (Upstash Redis)
+- Observability (Helicone)
+- Responsive, modern UI
+- Download logos in high quality
 
-- **AI-Powered Logo Generation**: Instantly create unique logos using advanced AI models
-- **Multiple AI Models**: Choose from a variety of creative models
-- **Rate Limiting**: Fair usage for all users
-- **Customization Options**:
-  - Multiple style presets (Minimal, Tech, Corporate, Creative, Abstract, Flashy)
-  - Custom color selection
-  - Various size options (256x256, 512x512, 1024x1024)
-  - Quality settings (Standard, HD)
-- **User History**: Track and manage your generated logos
-- **Public Gallery**: Browse logos created by the community
-- **Secure Authentication**: Powered by Clerk
-- **Database Integration**: PostgreSQL with Drizzle ORM
+---
 
-## Tech Stack
+## 🛠️ Tech Stack
+- **Frontend:** Next.js (App Router), React, Tailwind CSS
+- **Backend:** Next.js API routes / Server Actions
+- **Database:** PostgreSQL (NeonDB)
+- **AI:** Nebius AI
+- **Authentication:** Clerk
+- **Rate Limiting:** Upstash Redis
+- **Observability:** Helicone
 
-- **Frontend**: Next.js, TypeScript
-- **Styling**: Tailwind CSS, Shadcn UI
-- **Authentication**: Clerk
-- **Database**: PostgreSQL (NeonDB)
-- **Rate Limiting**: Upstash Redis
-- **ORM**: Drizzle ORM
-- **AI Integration**: Nebius AI
-- **Animations**: Framer Motion
-- **Deployment**: Vercel
-- **Observability**: Helicone
+---
 
-## Getting Started
+## 🏗️ System Design
 
-### Prerequisites
-
-Before you begin, you'll need to create accounts and obtain API keys from the following services:
-
-- [Node.js 18+](https://nodejs.org/en/download/)
-- [NeonDB Account](https://neon.tech/) - For PostgreSQL database
-- [Nebius AI Account](https://dub.sh/nebius) - For AI model access
-- [Clerk Account](https://clerk.com/) - For authentication
-- [Vercel Account](https://vercel.com/) - For deployment
-- [Upstash Account](https://upstash.com/) - For Ratelimiting
-- [Helicone Account](https://www.helicone.ai/) - For Observability
-
-### Environment Variables
-
-Create a `.env.local` file in the root directory with the following variables:
-
-```env
-# Database (from NeonDB)
-POSTGRES_URL=your_postgres_connection_string
-
-# AI (from Nebius AI Studio)
-NEBIUS_API_KEY=your_nebius_api_key
-
-# Auth (from Clerk Dashboard)
-NEXT_PUBLIC_CLERK_PUBLISHABLE_KEY=your_clerk_publishable_key
-CLERK_SECRET_KEY=your_clerk_secret_key
-
-# Rate Limiting (from Upstash)
-UPSTASH_REDIS_REST_URL=your_upstash_redis_url
-UPSTASH_REDIS_REST_TOKEN=your_upstash_redis_token
-
-# Observability (from Helicone)
-HELICONE_API_KEY=your_helicone_api_key
-
-# Development
-NEXT_PUBLIC_DEVELOPMENT_URL=http://localhost:3000
+```mermaid
+flowchart TD
+  A[User (Web/Mobile)] -->|HTTP/HTTPS| B[Next.js Frontend (Brandify)]
+  B -->|API Calls| C[API Route / Server Actions]
+  C -->|DB Queries| D[(PostgreSQL / NeonDB)]
+  C -->|AI Requests| E[Nebius AI API]
+  C -->|Rate Limiting| F[Upstash Redis]
+  C -->|Observability| G[Helicone]
+  B -->|Auth| H[Clerk (Authentication)]
+  B -->|Static Assets| I[Public CDN]
 ```
 
-### Installation
+---
 
-1. Clone the repository:
+## 🧩 Low-Level System Design & Architecture
 
-```bash
-git clone https://github.com/Divyanshu0230/brandify.git
-cd brandify
+```mermaid
+flowchart TD
+  subgraph CLIENT[Client Side]
+    A1[User Browser]
+    A2[React Components]
+    A3[Next.js Pages]
+    A1 --> A2 --> A3
+  end
+
+  subgraph FRONTEND[Next.js Frontend]
+    B1[UI Components]
+    B2[API Calls (fetch, axios)]
+    B3[Clerk Auth SDK]
+    A3 --> B1
+    B1 --> B2
+    B1 --> B3
+  end
+
+  subgraph BACKEND[Next.js API/Server Actions]
+    C1[API Route Handler]
+    C2[Business Logic]
+    C3[DB Access Layer]
+    C4[AI Service Layer]
+    C5[Rate Limiting Layer]
+    C6[Observability Layer]
+    B2 --> C1
+    C1 --> C2
+    C2 --> C3
+    C2 --> C4
+    C2 --> C5
+    C2 --> C6
+  end
+
+  subgraph SERVICES[External Services]
+    D1[(PostgreSQL / NeonDB)]
+    D2[Nebius AI API]
+    D3[Upstash Redis]
+    D4[Helicone]
+    D5[Clerk Auth API]
+    D6[Public CDN]
+    C3 --> D1
+    C4 --> D2
+    C5 --> D3
+    C6 --> D4
+    B3 --> D5
+    B1 --> D6
+  end
 ```
 
-2. Install dependencies:
+---
 
-```bash
-npm install
-```
+## ⚡ Quickstart
 
-3. Run database migrations:
+1. **Clone the repo:**
+   ```bash
+   git clone https://github.com/Divyanshu0230/logo-generator.git
+   cd logo-generator
+   ```
+2. **Install dependencies:**
+   ```bash
+   npm install
+   ```
+3. **Set up environment variables:**
+   - Copy `.env.example` to `.env.local` and fill in your keys (NeonDB, Nebius, Clerk, Upstash, Helicone)
+4. **Run database migrations:**
+   ```bash
+   npx drizzle-kit migrate
+   ```
+5. **Start the dev server:**
+   ```bash
+   npm run dev
+   ```
+6. **Open [http://localhost:3000](http://localhost:3000)**
 
-```bash
-npx drizzle-kit migrate
-```
+---
 
-4. Start the development server:
+## 🌐 Deployment
+- **Vercel (Recommended):** Import your repo, add env vars, and deploy.
+- **Render:** Supported, but may require custom build/start commands.
 
-```bash
-npm run dev
-```
+---
 
-5. Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+## 👤 Author
+- **Divyanshu Pratap Singh**  
+  [GitHub](https://github.com/Divyanshu0230) | [LinkedIn](https://www.linkedin.com/in/divyanshu-pratap-singh-304546251/)
 
-### Docker Deployment
+---
 
-1. Build the Docker Compose image:
-
-```bash
-docker compose up -d --build
-```
-
-2. Or, build the Docker image and run the container:
-
-```bash
-docker build -t brandify .
-docker run -p 3000:3000 \
-  -e NEBIUS_API_KEY=$NEBIUS_API_KEY \
-  -e NEXT_PUBLIC_CLERK_PUBLISHABLE_KEY=$NEXT_PUBLIC_CLERK_PUBLISHABLE_KEY \
-  -e CLERK_SECRET_KEY=$CLERK_SECRET_KEY \
-  brandify
-```
-
-## Project Structure
-
-```
-├── app/
-│   ├── actions/        # Server actions
-│   ├── gallery/        # Public gallery page
-│   ├── generate/       # Logo generation page
-│   ├── history/        # User history page
-│   └── page.tsx        # Landing page
-├── components/         # UI components
-├── db/
-│   ├── index.ts        # Database configuration
-│   └── schema.ts       # Database schema
-├── lib/
-│   ├── domain.ts       # Domain configuration
-│   └── upstash.ts      # Rate limiting configuration
-├── public/            # Static assets
-└── middleware.ts      # Rate limiting middleware
-```
-
-## Author & Links
-
-- **GitHub:** [Divyanshu0230](https://github.com/Divyanshu0230)
-- **LinkedIn:** [Divyanshu Pratap Singh](https://www.linkedin.com/in/divyanshu-pratap-singh-304546251/)
-
-## License
-
-This project is licensed - see the [LICENSE](LICENSE) file for details.
-
-## Support
-
-For support, please open an issue in the GitHub repository or contact the maintainer.
+## 📄 License
+MIT License. See [LICENSE](LICENSE) for details.
