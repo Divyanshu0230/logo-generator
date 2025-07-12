@@ -31,14 +31,14 @@ Brandify is a modern, full-stack AI-powered logo generator. Instantly create, cu
 
 ```mermaid
 flowchart TD
-  A[User (Web/Mobile)] -->|HTTP/HTTPS| B[Next.js Frontend (Brandify)]
-  B -->|API Calls| C[API Route / Server Actions]
-  C -->|DB Queries| D[(PostgreSQL / NeonDB)]
-  C -->|AI Requests| E[Nebius AI API]
-  C -->|Rate Limiting| F[Upstash Redis]
-  C -->|Observability| G[Helicone]
-  B -->|Auth| H[Clerk (Authentication)]
-  B -->|Static Assets| I[Public CDN]
+  User["User (Web/Mobile)"] -->|HTTP/HTTPS| Frontend["Next.js Frontend (Brandify)"]
+  Frontend -->|API Calls| ServerActions["API Route / Server Actions"]
+  ServerActions -->|DB Queries| Database[("PostgreSQL / NeonDB")]
+  ServerActions -->|AI Requests| AI["Nebius AI API"]
+  ServerActions -->|Rate Limiting| Redis["Upstash Redis"]
+  ServerActions -->|Observability| Helicone["Helicone"]
+  Frontend -->|Auth| Clerk["Clerk (Authentication)"]
+  Frontend -->|Static Assets| CDN["Public CDN"]
 ```
 
 ---
@@ -47,50 +47,50 @@ flowchart TD
 
 ```mermaid
 flowchart TD
-  subgraph CLIENT[Client Side]
-    A1[User Browser]
-    A2[React Components]
-    A3[Next.js Pages]
-    A1 --> A2 --> A3
+  subgraph CLIENT["Client Side"]
+    Browser["User Browser"]
+    ReactComponents["React Components"]
+    NextPages["Next.js Pages"]
+    Browser --> ReactComponents --> NextPages
   end
 
-  subgraph FRONTEND[Next.js Frontend]
-    B1[UI Components]
-    B2[API Calls (fetch, axios)]
-    B3[Clerk Auth SDK]
-    A3 --> B1
-    B1 --> B2
-    B1 --> B3
+  subgraph FRONTEND["Next.js Frontend"]
+    UIComponents["UI Components"]
+    APICalls["API Calls"]
+    ClerkSDK["Clerk Auth SDK"]
+    NextPages --> UIComponents
+    UIComponents --> APICalls
+    UIComponents --> ClerkSDK
   end
 
-  subgraph BACKEND[Next.js API/Server Actions]
-    C1[API Route Handler]
-    C2[Business Logic]
-    C3[DB Access Layer]
-    C4[AI Service Layer]
-    C5[Rate Limiting Layer]
-    C6[Observability Layer]
-    B2 --> C1
-    C1 --> C2
-    C2 --> C3
-    C2 --> C4
-    C2 --> C5
-    C2 --> C6
+  subgraph BACKEND["Next.js API/Server Actions"]
+    APIRoute["API Route Handler"]
+    BusinessLogic["Business Logic"]
+    DBLayer["DB Access Layer"]
+    AIServices["AI Service Layer"]
+    RateLimit["Rate Limiting Layer"]
+    Observability["Observability Layer"]
+    APICalls --> APIRoute
+    APIRoute --> BusinessLogic
+    BusinessLogic --> DBLayer
+    BusinessLogic --> AIServices
+    BusinessLogic --> RateLimit
+    BusinessLogic --> Observability
   end
 
-  subgraph SERVICES[External Services]
-    D1[(PostgreSQL / NeonDB)]
-    D2[Nebius AI API]
-    D3[Upstash Redis]
-    D4[Helicone]
-    D5[Clerk Auth API]
-    D6[Public CDN]
-    C3 --> D1
-    C4 --> D2
-    C5 --> D3
-    C6 --> D4
-    B3 --> D5
-    B1 --> D6
+  subgraph SERVICES["External Services"]
+    NeonDB["PostgreSQL / NeonDB"]
+    NebiusAI["Nebius AI API"]
+    Upstash["Upstash Redis"]
+    HeliconeS["Helicone"]
+    ClerkAPI["Clerk Auth API"]
+    PublicCDN["Public CDN"]
+    DBLayer --> NeonDB
+    AIServices --> NebiusAI
+    RateLimit --> Upstash
+    Observability --> HeliconeS
+    ClerkSDK --> ClerkAPI
+    UIComponents --> PublicCDN
   end
 ```
 
